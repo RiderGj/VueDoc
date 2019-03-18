@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../../assets/js/vue.js"></script>
+    <title>组件基础——基本示例</title>
+</head>
+
+<body>
+    <div id="app">
+        <h2>组件基础——基本示例</h2>
+        <hr>
+        <h3>基本示例</h3>
+        <button-counter></button-counter>
+        <hr>
+        <h3>组件的复用</h3>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <hr>
+        <h3>通过Prop向子组件传递数据</h3>
+        <blog-post title="标题1"></blog-post>
+        <blog-post title="标题2"></blog-post>
+        <blog-post v-for="post in posts" v-bind:title="post.title" :key="post.id"></blog-post>
+        <hr>
+        <h3>单个根元素</h3>
+        <blog-post1 v-for="post in posts1" v-bind:post="post" :key="post.id"></blog-post1>
+    </div>
+
+    <script type="text/javascript">
+        // 全局注册
+        Vue.component('button-counter', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: `<button @click="count++">你已点击我{{count}}次</button>`
+        });
+        Vue.component('blog-post', {
+            props: ['title'],
+            template: `<h4>{{title}}</h4>`
+        });
+        Vue.component('blog-post1', {
+            props: ['post'],
+            template: `
+                <div class="blog">
+                    <h4>{{post.title}}</h4>
+                    <div v-html="post.content"></div>
+                </div>
+            `
+        });
+
+
+        new Vue({
+            el: '#app',
+            data: {
+                posts: [
+                    {id: 1, title: '标题列表Item-1'},
+                    {id: 3, title: '标题列表Item-3'},
+                    {id: 2, title: '标题列表Item-2'}
+                ],
+                posts1: [
+                    {id: 1, title: '文章标题1', 
+                    content:'<p>文章内容1文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
+                    {id: 2, title: '文章标题2', 
+                    content:'<p>文章内容2文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
+                    {id: 3, title: '文章标题3', 
+                    content:'<p>文章内容3文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>
