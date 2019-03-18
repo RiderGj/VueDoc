@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script type="text/javascript" src="../../assets/js/vue.js"></script>
+   <title>事件处理1</title>
+</head>
+<body>
+    <div id="app">
+        <h2>内联处理器中的方法</h2>
+        <hr />
+        <div class="innerFunc">
+            <button @click="warn('Form cannot be submitted yet.', $event)">
+                Submit
+            </button>
+        </div>
+        <h2>事件修饰符</h2>
+        <hr />
+        <div class="evtDecorate">
+            <p>{{num}}</p>
+            <button v-on:click="add">ADD</button>
+            <button v-on:click.once="add">ADD Once</button>
+            <button v-on:click.stop="add">ADD Stop</button>
+            <button v-on:click.prevent="add">ADD Prevent</button>
+        </div>
+        <h2>按键修饰符</h2>
+        <hr>
+        <div class="btnDecotate">
+            <div>
+                <input type="text" v-on:keyup.enter="warn(msg)" v-model="msg"> 通过enter来触发事件
+                <button @click="warn(msg)">点我</button>
+            </div>
+            <div>
+                <p></p><input type="text" v-on:keyup.alt.67="clear" v-model="msg">
+                通过alt+c来清空</p>
+                <p><input type="text" v-on:keyup.alt.exact="clear" v-model="msg"> exact只能通过alt来清空</p>
+                <p><input type="text" v-on:click.ctrl.left="clear" v-model="msg"> 通过ctrl+鼠标左键来清空</p>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                'num': 0,
+                'msg': ''
+            },
+            methods: {
+                'warn': function(msg) {
+                    // if (msg) evt.preventDefault();
+                    alert(msg);
+                },
+                'add': function() {
+                    this.num++;
+                },
+                'clear': function() {
+                    this.msg = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

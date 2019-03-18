@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../../assets/js/vue.js"></script>
+    <title>表单输入绑定——值绑定</title>
+</head>
+
+<body>
+    <div id="app">
+        <h2>表单输入绑定——值绑定</h2>
+        <hr>
+        <h3>复选框-checkbox</h3>
+        <input type="checkbox" id="toggle" v-model="toggle" true-value="yes" false-value="no">
+        <label for="toggle">{{toggle}}</label>
+        <hr>
+        <h3>单选按钮-radio</h3>
+        <input type="radio" id="pick" v-model="pick" :value="a">
+        <label for="pick">A</label>
+        <br>
+        <span>picked: {{pick}}</span>
+        <hr>
+        <h3>选择框选项-select</h3>
+        <select v-model="selected">
+            <option v-bind:value="{number: 123}">123</option>
+            <option v-bind:value="{number: 213}">213</option>
+        </select>
+        <span>selected: {{selected}} - selected.number: {{selected.number}}</span>
+    </div>
+    
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                'toggle': 'yes',
+                'pick': '',
+                'a': 'A',
+                'selected': {}
+            }
+        })
+    </script>
+</body>
+
+</html>

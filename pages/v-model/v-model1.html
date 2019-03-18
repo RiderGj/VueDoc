@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../../assets/js/vue.js"></script>
+    <title>表单输入绑定——基础用法</title>
+</head>
+
+<body>
+    <div id="app">
+        <h2>表单输入绑定——基础用法</h2>
+        <hr>
+        <h3>文本&多行文本-text&textarea</h3>
+        <input v-model="message" type="text" placeholder="edit me">
+        <p>Message is: {{message}}</p>
+        <textarea v-model="message" placeholder="multiple lines"></textarea>
+        <p>Multiline text is: {{message}}</p>
+        <hr>
+        <h3>复选框-checkbox</h3>
+        <input v-model="checked" type="checkbox" id="checkbox">
+        <label for="checkbox">{{checked}}</label>
+        <div class="multiCheckbox">
+            <!-- 将value值更改 -->
+            <input v-model="students" id="jack" type="checkbox" value="jack">
+            <label for="jack">Jack</label>
+            <input v-model="students" id="john" type="checkbox" value="john">
+            <label for="john">John</label>
+            <input v-model="students" id="mike" type="checkbox" value="mike">
+            <label for="mike">Mike</label>
+            <br>
+            <span>checked names: {{students}}</span>
+        </div>
+        <hr>
+        <h3>单选按钮-radio</h3>
+        <div class="radio">
+            <input v-model="radioItem" id="one" type="radio" value="One">
+            <label for="one">One</label>
+            <input v-model="radioItem" id="two" type="radio" value="Two">
+            <label for="two">Two</label>
+            <p>picked: {{radioItem}}</p>
+        </div>
+        <hr>
+        <h3>选择框-select</h3>
+        <div class="select">
+            <select v-model="selValue">
+                <!-- v-model初始值未匹配选项，select将渲染成未选中状态；但在ios会出错，建议加一个disabled默认选项 -->
+                <option value="" disabled>请选择</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+            <span>selected: {{selValue}}</span>
+            <br>
+            <select v-model="selValues" multiple>
+                <!-- v-model初始值未匹配选项，select将渲染成未选中状态；但在ios会出错，建议加一个disabled默认选项 -->
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+            <span>selected: {{selValues}}</span>
+            <br>
+            <select v-model="selValue">
+                <!-- v-model初始值未匹配选项，select将渲染成未选中状态；但在ios会出错，建议加一个disabled默认选项 -->
+                <option value="" disabled>请选择</option>
+                <option v-for="selOption of selOptions" :value="selOption.value">{{selOption.text}}</option>
+            </select>
+            <span>selected: {{selValue}}</span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            'message': '',
+            'checked': false,
+            'students': [],
+            'radioItem': '',
+            'selValue': '',
+            'selValues': [],
+            'selOptions': [
+                {text: 'One', value: 'A'},
+                {text: 'Two', value: 'B'},
+                {text: 'Three', value: 'C'}
+            ]
+        }
+    })
+</script>
+
+</html>
