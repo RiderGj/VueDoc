@@ -27,21 +27,41 @@
         <hr>
         <h3>单个根元素</h3>
         <blog-post1 v-for="post in posts1" v-bind:post="post" :key="post.id"></blog-post1>
+        <hr>
+        <h3>监听子组件事件</h3>
+        <div v-bind:style="{fontSize: postFontSize+'em'}">
+            <blog-post2 v-on:enlarge-text="postFontSize += $event" v-for="post2 in posts2" v-bind:post="post2" :key="'label'+post2.id">
+            </blog-post2>
+        </div>
+        <hr>
+        <h3>在组件上使用v-model</h3>
+        <custom-input v-bind:value="inputValue" v-on:input="inputValue=$event"></custom-input>
+        <custom-input v-model="inputValue"></custom-input>
+        <span>{{inputValue}}</span>
+        <hr>
+        <h3>通过插槽分发内容</h3>
+        <alert-box>Something has happened!</alert-box>
+        <hr>
+        <h3>动态组件</h3>
+        <button @click="currentComp='custom-input'">custom-input</button>
+        <button @click="currentComp='alert-box'">alert-box</button>
+        <component :is="currentComp"></component>
     </div>
 
     <script type="text/javascript">
         // 全局注册
         Vue.component('button-counter', {
-            data: function () {
-                return {
-                    count: 0
-                }
+            data: function() {
+                return {count: 0};
             },
             template: `<button @click="count++">你已点击我{{count}}次</button>`
         });
         Vue.component('blog-post', {
+            data: function() {
+                return {count: 1};
+            },
             props: ['title'],
-            template: `<h4>{{title}}</h4>`
+            template: `<h4>{{title}}-{{count}}</h4>`
         });
         Vue.component('blog-post1', {
             props: ['post'],
@@ -52,24 +72,72 @@
                 </div>
             `
         });
-
-
+        Vue.component('blog-post2', {
+            props: ['post'],
+            template: `
+                <div class="blog">
+                    <h4>{{post.title}}</h4>
+                    <button v-on:click="$emit('enlarge-text', 0.1)">Enlager text</button>
+                    <div v-html="post.content"></div>
+                </div>
+            `
+        });
+        Vue.component('custom-input', {
+            props: ['value'],
+            template: `
+                <input
+                    v-bind:value="value" 
+                    v-on:input="$emit('input', $event.target.value)"
+                >
+            `
+        });
+        Vue.component('alert-box', {
+            template: `
+                <div class="alert-box">
+                    <strong>ERROR!</strong>
+                    <slot></slot>
+                </div>
+            `
+        })
         new Vue({
             el: '#app',
             data: {
                 posts: [
-                    {id: 1, title: '标题列表Item-1'},
-                    {id: 3, title: '标题列表Item-3'},
-                    {id: 2, title: '标题列表Item-2'}
+                    { id: 1, title: '标题列表Item-1' },
+                    { id: 3, title: '标题列表Item-3' },
+                    { id: 2, title: '标题列表Item-2' }
                 ],
                 posts1: [
-                    {id: 1, title: '文章标题1', 
-                    content:'<p>文章内容1文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
-                    {id: 2, title: '文章标题2', 
-                    content:'<p>文章内容2文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
-                    {id: 3, title: '文章标题3', 
-                    content:'<p>文章内容3文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'},
-                ]
+                    {
+                        id: 4, title: '文章标题1',
+                        content: '<p>文章内容1文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                    {
+                        id: 5, title: '文章标题2',
+                        content: '<p>文章内容2文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                    {
+                        id: 6, title: '文章标题3',
+                        content: '<p>文章内容3文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                ],
+                posts2: [
+                    {
+                        id: 4, title: '文章标题1',
+                        content: '<p>文章内容1文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                    {
+                        id: 5, title: '文章标题2',
+                        content: '<p>文章内容2文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                    {
+                        id: 6, title: '文章标题3',
+                        content: '<p>文章内容3文章内容文章内容文章内容文章内容</p><p>文章内容文章内容文章内容文章内容文章内容</p>'
+                    },
+                ],
+                postFontSize: 1,
+                inputValue: '12',
+                currentComp: 'alert-box'
             }
         })
     </script>
