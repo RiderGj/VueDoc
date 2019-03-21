@@ -17,7 +17,32 @@
         {{checked}}
         <hr>
         <h3>将原生事件绑定到组件</h3>
-        <base-input label="基本输入"></base-input>
+        <base-input :label="textContent" v-model="textContent"></base-input>
+        <hr>
+        <h3>具名插槽</h3>
+        <base-layout>
+            <template v-slot:header>
+                <h2>我是标题header</h2>
+            </template>
+            <h3>我是默认slot</h3>
+            <template v-slot:footer>
+                <h4>我是slot-footer</h4>
+            </template>
+        </base-layout>
+        <hr>
+        <h3>作用域插槽</h3>
+        <current-user>
+            <template v-slot="slotProps">
+                <p>只能使用作用域内定义的data</p>
+                {{slotProps.user.fistName}}
+            </template>
+        </current-user>
+        <current-user v-slot="{ user }">
+            <p>尝试结构赋值</p>
+            {{user.firstName}}
+        </current-user>
+
+
     </div>
 
     <script type="text/javascript">
@@ -66,11 +91,57 @@
                 
             `
         });
+        Vue.component('base-layout', {
+            template: `
+                <div class="container">
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>    
+                    </footer>
+                </div>
+            `
+        });
+        Vue.component('current-user', {
+            data: function(){
+                return {
+                    user: {
+                        name: 'hello',
+                        fistName: 'Jian',
+                        LastName: 'Gao'
+                    }
+                }
+            },
+            template: `
+                <span>
+                    <slot v-bind:user="user">
+                        {{user.LastName}}
+                    </slot>    
+                </span>
+            `
+        });
 
         new Vue({
             el: '#app',
             data: {
-                checked: true
+                checked: true,
+                textContent: '',
+                user: {
+                    name: 'hello',
+                    fistName: 'Jian',
+                    LastName: 'Gao'
+                },
+                slotProps: {
+                    user: {
+                        name: 'hello',
+                        fistName: 'Jian',
+                        LastName: 'Gao'
+                    }
+                }
             }
         });
     </script>

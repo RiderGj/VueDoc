@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../../assets/js/vue.js"></script>
+    <script type="text/javascript" src="../../assets/js/lodash.js"></script>
+    <title>过渡&动画——列表过渡</title>
+    <style>
+        .list-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .list-enter-active,
+        .list-leave-active {
+            transition: all 1s;
+        }
+
+        .list-enter,
+        .list-leave-to {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .list-move {
+            transition: transform 1s;
+        }
+
+        .flp-move {
+            transition: transform 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2>过渡&动画——列表过渡</h2>
+        <hr>
+        <h3>列表进入/离开过渡</h3>
+        <div class="demoList">
+            <button v-on:click="add">Add</button>
+            <button v-on:click="remove">Remove</button>
+            <transition-group name="list" tag="p">
+                <span v-for="item in items" :key="item" class="list-item">
+                    {{item}}
+                </span>
+            </transition-group>
+        </div>
+        <hr>
+        <h3>列表的排序过滤</h3>
+        <div class="demoList1">
+            <button @click="shuffle">Shuffile</button>
+            <transition-group name="flp" tag="ul">
+                <li v-for="item in items" :key="item">{{item}}</li>
+            </transition-group>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                show: true,
+                items: [1, 2, 3, 4, 5, 6],
+                nextNum: 7
+            },
+            methods: {
+                randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length);
+                },
+                add: function () {
+                    this.items.splice(this.randomIndex(), 0, this.nextNum++);
+                },
+                remove: function () {
+                    this.items.splice(this.randomIndex(), 1);
+                },
+                shuffle: function () {
+                    this.items = _.shuffle(this.items);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -45,7 +45,10 @@
         <h3>动态组件</h3>
         <button @click="currentComp='custom-input'">custom-input</button>
         <button @click="currentComp='alert-box'">alert-box</button>
-        <component :is="currentComp"></component>
+        <keep-alive>
+            <component :is="currentComp"></component>
+        </keep-alive>
+        
     </div>
 
     <script type="text/javascript">
