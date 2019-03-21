@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Test Closure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h2>Test Closure</h2>
+    <hr>
+    Test Backstage! Please Press F12 to Console~
+
+    <script>
+        //
+        function foo(a) {
+            this.a = a;
+        }
+        var el = new foo(233);
+        console.log(el.a);
+        //233
+
+        /*
+        function foo(el) {
+            console.log(el, this.id);
+        }
+        var obj = {
+            id: 'handsome'
+        }
+        var array = [1, 2, 3];
+        [1, 2, 3].forEach(foo, obj);
+        // 1 "handsome" 2 "handsome" 3 "handsome"
+        // console.log([1, 2, 4].length);
+        /*
+        function foo(sth) {
+            return this.a + sth;
+        }
+        var obj = {
+            a: 5
+        }
+        var bar = foo.bind(obj);
+        console.log(bar(3)); //8
+        /*
+        function foo() {
+            console.log(this.a);
+        }
+        function doFun(fn) {
+            fn();
+        }
+        var a = 2;
+        var obj = {
+            a: 424,
+            foo: foo
+        };
+        foo.call(obj);//424
+        doFun(obj.foo);// 2
+        /*
+        foo(); 
+        obj.foo();
+        // 2
+        // 424
+
+        /*
+        // this
+        function foo1() {
+            var a = 1;
+            console.log(this.a);
+            foo2();
+        }
+        function foo2() {
+            var a = 2;
+            console.log(this.a);
+            foo3();
+        }
+        function foo3() {
+            var a = 3;
+            console.log(this.a);
+        }
+        var a = 0;
+        foo1();
+
+        /*
+        // 1.基本的闭包
+        function foo() {
+            var a = 2;
+            function bar() {
+                console.log(a);
+            }
+            return bar;
+        }
+        foo()();
+        // 2.升级版闭包
+        function foo1() {
+            var a = 2;
+            function baz() {
+                console.log(a);
+            }
+            bar(baz);
+        }
+        function bar(fn) {
+            fn();
+        }
+        foo1();
+
+        */
+    </script>
+</body>
+
+</html>
