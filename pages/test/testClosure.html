@@ -5,106 +5,225 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Test Closure</title>
+    <script src="../../assets/js/vue.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 173px;
+        }
+        li:hover{
+            background-color: antiquewhite;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Test Closure</h2>
-    <hr>
-    Test Backstage! Please Press F12 to Console~
+    <div id="app">
+        <h2>Test Closure</h2>
+        <hr>
+        Test Backstage! Please Press F12 to Console~
+        <br>
+        <hr>
+        <h3>Auto Complete</h3>
+        <input id="input" type="text" oninput="autocomp(event)">
+        <ul id="tip"></ul>
+        <!-- <p>
+            data-a:
+            <input type="text" v-model="a">
+            <label>{{a}}</label>
+        </p>
+        <p>
+            computed-b:
+            <label>{{b}}</label>
+        </p>
+        <p>
+            method-c:
+            <button @click="c">c</button>
+        </p>
+        <p>
+            watch-d:
+            <label>{{d}}</label>
+        </p> -->
+    </div>
+    
 
     <script>
-        //
-        function foo(a) {
-            this.a = a;
-        }
-        var el = new foo(233);
-        console.log(el.a);
-        //233
-
-        /*
-        function foo(el) {
-            console.log(el, this.id);
-        }
-        var obj = {
-            id: 'handsome'
-        }
-        var array = [1, 2, 3];
-        [1, 2, 3].forEach(foo, obj);
-        // 1 "handsome" 2 "handsome" 3 "handsome"
-        // console.log([1, 2, 4].length);
-        /*
-        function foo(sth) {
-            return this.a + sth;
-        }
-        var obj = {
-            a: 5
-        }
-        var bar = foo.bind(obj);
-        console.log(bar(3)); //8
-        /*
-        function foo() {
-            console.log(this.a);
-        }
-        function doFun(fn) {
-            fn();
-        }
-        var a = 2;
-        var obj = {
-            a: 424,
-            foo: foo
-        };
-        foo.call(obj);//424
-        doFun(obj.foo);// 2
-        /*
-        foo(); 
-        obj.foo();
-        // 2
-        // 424
-
-        /*
-        // this
-        function foo1() {
-            var a = 1;
-            console.log(this.a);
-            foo2();
-        }
-        function foo2() {
-            var a = 2;
-            console.log(this.a);
-            foo3();
-        }
-        function foo3() {
-            var a = 3;
-            console.log(this.a);
-        }
-        var a = 0;
-        foo1();
-
-        /*
-        // 1.基本的闭包
-        function foo() {
-            var a = 2;
-            function bar() {
-                console.log(a);
+        var arr = ['123', '1125', '12525', '1125756', '45616']
+        function autocomp(e){
+            val = e.target.value.trim();
+            let arrCom = [];
+            let htmlLi = '';
+            for (let i=0; i<arr.length; i++){
+                if (val!=''&&arr[i].startsWith(val)){
+                    arrCom.push(arr[i]);
+                }
             }
-            return bar;
-        }
-        foo()();
-        // 2.升级版闭包
-        function foo1() {
-            var a = 2;
-            function baz() {
-                console.log(a);
+            for (let j=0; j<arrCom.length; j++){
+                htmlLi += '<li class="item" onclick="changeVal(event)">'+arrCom[j]+'</li>';
             }
-            bar(baz);
+            document.getElementById('tip').innerHTML = htmlLi;
+            console.log(e);
         }
-        function bar(fn) {
-            fn();
-        }
-        foo1();
 
-        */
+        function changeVal(evt){
+            document.getElementById("input").value = event.target.innerText;
+            document.getElementById('tip').innerHTML='';
+        }
+        // document.getElementsByClassName("item").addEventListener("click", function(event){
+            
+        // })
+        // function autocomplete(e){
+        //     console.log(e.target);
+        // }
+        // /*
+        // new Vue({
+        //     el: '#app',
+        //     data: {
+        //         a: 1,
+        //         d: 1
+        //     },
+        //     computed: {
+        //         b: function(){
+        //             console.log('computed a process....')
+        //             return this.a+10;
+        //         }
+        //     },
+        //     methods: {
+        //         c: function(){
+        //             console.log('method c process...');
+        //             this.a = this.a;
+        //         }
+        //     },
+        //     watch: {
+        //         a: function(val, oldVal){
+        //             console.log('watch-a process...');
+        //             console.log('watch-a old: %s, new %s', oldVal, val);
+        //             this.d = val-oldVal;
+        //         }
+        //     },
+        // })
+        // /*
+        // var a = 10;
+        // function fn() {
+        //     console.log(this.a);
+        // }
+
+        // function bar(f) {
+        //     var a = 20;
+        //     f;
+        // }
+
+        // bar(fn);
+        
+        // /*
+        // function A() {
+        //     this.name = "a";
+        //     this.value = "A";
+        // }
+        // function B() {
+        //     this.name = "b";
+        // }
+
+        // a = new A();
+        // B.prototype = new A();
+        // b = new B();
+        // console.log(b);
+
+
+        // /*
+        // function foo(a) {
+        //     this.a = a;
+        // }
+        // var el = new foo(233);
+        // console.log(el.a);
+        // //233
+
+        // /*
+        // function foo(el) {
+        //     console.log(el, this.id);
+        // }
+        // var obj = {
+        //     id: 'handsome'
+        // }
+        // var array = [1, 2, 3];
+        // [1, 2, 3].forEach(foo, obj);
+        // // 1 "handsome" 2 "handsome" 3 "handsome"
+        // // console.log([1, 2, 4].length);
+        // /*
+        // function foo(sth) {
+        //     return this.a + sth;
+        // }
+        // var obj = {
+        //     a: 5
+        // }
+        // var bar = foo.bind(obj);
+        // console.log(bar(3)); //8
+        // /*
+        // function foo() {
+        //     console.log(this.a);
+        // }
+        // function doFun(fn) {
+        //     fn();
+        // }
+        // var a = 2;
+        // var obj = {
+        //     a: 424,
+        //     foo: foo
+        // };
+        // foo.call(obj);//424
+        // doFun(obj.foo);// 2
+        // /*
+        // foo(); 
+        // obj.foo();
+        // // 2
+        // // 424
+
+        // /*
+        // // this
+        // function foo1() {
+        //     var a = 1;
+        //     console.log(this.a);
+        //     foo2();
+        // }
+        // function foo2() {
+        //     var a = 2;
+        //     console.log(this.a);
+        //     foo3();
+        // }
+        // function foo3() {
+        //     var a = 3;
+        //     console.log(this.a);
+        // }
+        // var a = 0;
+        // foo1();
+
+        // /*
+        // // 1.基本的闭包
+        // function foo() {
+        //     var a = 2;
+        //     function bar() {
+        //         console.log(a);
+        //     }
+        //     return bar;
+        // }
+        // foo()();
+        // // 2.升级版闭包
+        // function foo1() {
+        //     var a = 2;
+        //     function baz() {
+        //         console.log(a);
+        //     }
+        //     bar(baz);
+        // }
+        // function bar(fn) {
+        //     fn();
+        // }
+        // foo1();
+
+        // */
     </script>
 </body>
 
